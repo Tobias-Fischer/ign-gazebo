@@ -27,6 +27,10 @@ extern "C" IGNITION_GAZEBO_VISIBLE char *ignitionGazeboVersion();
 /// \return C-string containing the Gazebo version information.
 extern "C" IGNITION_GAZEBO_VISIBLE char *gazeboVersionHeader();
 
+/// \brief External hook to dump a model information.
+extern "C" IGNITION_GAZEBO_VISIBLE void cmdModelInfo(
+    const char *_model, const char *_world);
+
 /// \brief Set verbosity level
 /// \param[in] _verbosity 0 to 4
 extern "C" IGNITION_GAZEBO_VISIBLE void cmdVerbosity(

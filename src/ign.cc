@@ -27,6 +27,8 @@
 #include <ignition/fuel_tools/ClientConfig.hh>
 #include <ignition/fuel_tools/Result.hh>
 #include <ignition/fuel_tools/WorldIdentifier.hh>
+#include <ignition/msgs.hh>
+#include <ignition/transport/Node.hh>
 
 #include "ignition/gazebo/config.hh"
 #include "ignition/gazebo/Server.hh"
@@ -44,6 +46,57 @@ extern "C" IGNITION_GAZEBO_VISIBLE char *ignitionGazeboVersion()
 extern "C" IGNITION_GAZEBO_VISIBLE char *gazeboVersionHeader()
 {
   return strdup(IGNITION_GAZEBO_VERSION_HEADER);
+}
+
+//////////////////////////////////////////////////
+extern "C" IGNITION_GAZEBO_VISIBLE void cmdModelInfo(
+  const char *_model, const char *_world)
+{
+  // Shapes here should be replaced with the world used.
+  // Could be passed as argument of model command, or
+  // also could be received calling /gazebo/worlds
+  const char *_service = "/world/shapes/scene/info";
+  const char *_reqType = "ignition.msgs.Empty"; 
+  const char *_repType = "ignition.msgs.Scene"; 
+  const int _timeout = 300;
+  const char *_reqData = " ";
+
+  std::cout  << "Model requested:" << _model << std::endl;
+  std::cout  << "World requested:" << _world << std::endl;
+
+  // Create the request, and populate the field with _reqData
+  auto req = ignition::msgs::Factory::New(_reqType, _reqData);
+  if (!req)
+  {
+    std::cerr << "Unable to create request of type[" << _reqType << "] "
+              << "with data[" << _reqData << "].\n";
+    return;
+  }
+
+  // Create the response.
+  auto rep = ignition::msgs::Factory::New(_repType);
+  if (!rep)
+  {
+    std::cerr << "Unable to create response of type[" << _repType << "].\n";
+    return;
+  }
+
+  // Create the node.
+  ignition::transport::Node node;
+  bool result;
+
+  // Request the service.
+  bool executed = node.Request(_service, *req, _timeout, *rep, result);
+  if (executed)
+  {
+    if (result){
+      std::cout << rep->DebugString() << std::endl;
+    }
+    else
+      std::cout << "Service call failed" << std::endl;
+  }
+  else
+    std::cerr << "Service call timed out" << std::endl;
 }
 
 //////////////////////////////////////////////////
