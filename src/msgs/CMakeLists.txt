@@ -1,3 +1,4 @@
+find_package(Protobuf REQUIRED)
 PROTOBUF_GENERATE_CPP(PROTO_PRIVATE_SRC PROTO_PRIVATE_HEADERS
   peer_info.proto
   peer_control.proto
