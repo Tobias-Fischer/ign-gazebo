@@ -67,7 +67,7 @@ set (gtest_sources
   Component_TEST.cc
   ComponentFactory_TEST.cc
   Conversions_TEST.cc
-  EntityComponentManager_TEST.cc
+  # EntityComponentManager_TEST.cc
   EventManager_TEST.cc
   ign_TEST.cc
   Link_TEST.cc
