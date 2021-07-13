@@ -131,6 +131,7 @@ ign_find_package(ignition-tools
 #--------------------------------------
 # Find protobuf
 set(REQ_PROTOBUF_VER 3)
+set(protobuf_MODULE_COMPATIBLE TRUE)
 ign_find_package(IgnProtobuf
                  VERSION ${REQ_PROTOBUF_VER}
                  REQUIRED
